@@ -1,0 +1,8 @@
+<section><%= image_tag("/assets/13.jpg", class: "image") %></section>
+<h2> Main colors:  <% @colors[0].each do |color| %> </h2>
+  <div class="swatch" style="background-color:<%= color[0].length >= 13 ? hexify(color[0]) : color[0] %>">
+    <div>
+
+    </div>
+  </div>
+<% end %>
