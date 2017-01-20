@@ -4,7 +4,7 @@ class WelcomeController < ApplicationController
   NUMBER_OF_IMAGES = 15
   def index
     collect_frequencies_of_images(NUMBER_OF_IMAGES)
-    p @images
+    @images.each_with_index { |image, index| p "The top 5 colors for image #{index} are: #{image}"  }
   end
 
   private
@@ -13,9 +13,9 @@ class WelcomeController < ApplicationController
     @images = []
 
     number_of_images.times do |number|
+      number_of_colors = 256
       path = "app/assets/images/#{number}.jpg"
-      image = load_image(path)
-
+      image = load_image(path, number_of_colors)
       # Resize
       # image = image.resize(0.3)
 
@@ -36,8 +36,9 @@ class WelcomeController < ApplicationController
     @images
   end
 
-  def load_image(path)
-     Magick::Image.read(path).first
+  def load_image(path, num)
+     image = Magick::Image.read(path).first
+    #  image.quantize(num, Magick::RGBColorspace)
   end
 
   def pixelate(image)
