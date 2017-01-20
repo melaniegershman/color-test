@@ -1,23 +1,22 @@
 class WelcomeController < ApplicationController
-  NUMBER_OF_IMAGES = 15
+  NUMBER_OF_IMAGES = 2
   def index
     collect_frequencies_of_images(NUMBER_OF_IMAGES)
-    @number = 15.times {|_| _ += 1 }
-    p @colors
+    p @images
   end
 
   private
 
   def collect_frequencies_of_images(number_of_images)
-    @colors = []
+    @images = []
     number_of_images.times do |number|
       path = "app/assets/images/#{number}.jpg"
       image = load_image(path)
       frequencies = collect_frequencies(image)
       sorted_frequencies = sort_frequencies(frequencies)
-      @colors << top_colors(sorted_frequencies)
+      @images << {top_colors: top_colors(sorted_frequencies)}
     end
-    @colors
+    @images
   end
 
   def load_image(path)
