@@ -1,8 +1,8 @@
-<% @images.each do |image| %>
-  <section><%= image_tag("/assets/#{@images.index(image)}.jpg", class: "image") %></section>
+<% @images.each do |colors_array| %>
+  <section><%= image_tag("/assets/#{@images.index(colors_array)}.jpg", class: "image") %></section>
 
-  <h2> Main colors:  <% image[:top_colors].each do |color| %> </h2>
-    <div class="swatch" style="background-color:<%= color[0].length >= 13 ? hexify(color[0]) : color[0] %>">
+  <p> Main colors:  <% colors_array.each do |color| %> </p>
+    <div class="swatch" style="background-color:<%= color.length >= 13 ? hexify(color) : color %>">
       <div>
 
       </div>
