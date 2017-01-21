@@ -1,11 +1,23 @@
-<% @images.each do |colors_array| %>
-  <section><%= image_tag("/assets/#{@images.index(colors_array)}.jpg", class: "image") %></section>
+<% 15.times do |image| %>
 
-  <p> Main colors:  <% colors_array.each do |color| %> </p>
-    <div class="swatch" style="background-color:<%= color.length >= 13 ? hexify(color) : color %>">
-      <div>
 
+<div class="row">
+  <div class="col s12 m7">
+    <div class="card">
+      <div class="card-image">
+        <%= image_tag("/assets/#{image}.jpg", class: "image") %>
+        <span class="card-title text-black">Main Colors</span>
+      </div>
+      <div class="card-content">
+        <% @hex_codes.each do |hex| %>
+          <div class="swatch" style="background-color:#<%= hex[:hex] %>">
+            <div>
+
+            </div>
+          </div>
+        <% end %>
       </div>
     </div>
-  <% end %>
+  </div>
+</div>
 <% end %>
