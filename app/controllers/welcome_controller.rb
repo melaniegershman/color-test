@@ -12,7 +12,7 @@ class WelcomeController < ApplicationController
   private
 
   def generate_image_colors(images)
-    number_of_colors = 256
+    number_of_colors = 12
     images.each do |image|
       image[:colors] = []
       quantized_image = quantize_image(image[:path], number_of_colors)
