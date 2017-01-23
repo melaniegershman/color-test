@@ -9,6 +9,7 @@ class WelcomeController < ApplicationController
 
   def generate_image_colors(images)
     number_of_colors = 12
+    number_of_dominant_colors = 5
     images.each do |image|
       image[:colors] = []
       quantized_image = quantize_image(image[:path], number_of_colors)
@@ -16,7 +17,7 @@ class WelcomeController < ApplicationController
       colors = get_hex(image[:path], number_of_colors, total_pixel_count)
       colors = colors.sort_by {|color| color[:percent]}.reverse
       colors.each {|hex_code| image[:colors] << hex_code[:hex]}
-      image[:colors] =  image[:colors].shift(5)
+      image[:colors] =  image[:colors].shift(number_of_dominant_colors)
     end
     images
   end
