@@ -1,14 +1,51 @@
 // Place all the styles related to the welcome controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.container {
+  width: auto;
+  margin: 0 auto;
+}
+
 .swatch {
   height: 75px;
   width: 75px;
   display: inline-block;
+  border: grey solid 1px;
+  margin: 12px;
 }
 
-img {
-  width: 300px;
-  height: auto;
+.card-wrapper {
   display: inline-block;
+  width: 33%;
+  box-sizing:border-box;
+  padding-right: 20px;
+
+}
+.card-wrapper:nth-child(3n) {
+  padding-right: none;
+}
+
+.card .card-image img {
+  display: block;
+  border-radius: 2px 2px 0 0;
+  position: relative;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  object-fit: cover;
+  max-height: 450px;
+  object-position: top;
+}
+
+.card .card-image .card-title {
+  color: #fff;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 15px;
+  word-break: break-word;
+  font-size: 115%;
 }

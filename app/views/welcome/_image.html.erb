@@ -1,11 +1,20 @@
 <% @images.each do |image| %>
-  <section><%= image_tag("/assets/#{@images.index(image)}.jpg", class: "image") %></section>
+  <div class="card-wrapper">
+    <div class="card">
+      <div class="card-image">
+        <%= image_tag("#{image[:filename]}", class: "image") %>
+      </div>
+      <div class="card-content">
+        <span class="black-text">Here are the dominant colors in: "<%="#{image[:filename]}"%>"</span>
+        <% image[:colors].each do |hex| %>
+          <div class="swatch" style="background-color:#<%= hex %>">
+            <div>
 
-  <h2> Main colors:  <% image[:top_colors].each do |color| %> </h2>
-    <div class="swatch" style="background-color:<%= color[0].length >= 13 ? hexify(color[0]) : color[0] %>">
-      <div>
-
+            </div>
+          </div>
+        <% end %>
       </div>
     </div>
-  <% end %>
+  </div>
+
 <% end %>

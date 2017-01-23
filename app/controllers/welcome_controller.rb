@@ -1,54 +1,78 @@
 class WelcomeController < ApplicationController
-  NUMBER_OF_IMAGES = 2
+
   def index
-    collect_frequencies_of_images(NUMBER_OF_IMAGES)
-    p @images
+    images = []
+    @images = generate_image_colors(create_image_array(images))
   end
 
   private
 
-  def collect_frequencies_of_images(number_of_images)
-    @images = []
-    number_of_images.times do |number|
-      path = "app/assets/images/#{number}.jpg"
-      image = load_image(path)
-      frequencies = collect_frequencies(image)
-      sorted_frequencies = sort_frequencies(frequencies)
-      @images << {top_colors: top_colors(sorted_frequencies)}
+  def generate_image_colors(images)
+    number_of_colors = 12
+    images.each do |image|
+      image[:colors] = []
+      quantized_image = quantize_image(image[:path], number_of_colors)
+      total_pixel_count = quantized_image.columns * quantized_image.rows
+      colors = get_hex(image[:path], number_of_colors, total_pixel_count)
+      colors = colors.sort_by {|color| color[:percent]}.reverse
+      colors.each {|hex_code| image[:colors] << hex_code[:hex]}
+      image[:colors] =  image[:colors].shift(5)
     end
-    @images
+    images
   end
 
-  def load_image(path)
-     Magick::Image.read(path).first
-  end
+  def create_image_array(images)
+    image_directory = "app/assets/images"
 
-  def collect_frequencies(image)
-    frequencies = Hash.new(0)
-
-    pixels = pixelate(image)
-
-    pixels.map do |pixel|
-      frequencies[pixel.to_color] += 1
+    Dir.foreach(image_directory) do |image|
+      image_object = {}
+      if image.include?(".jpg")
+        image_object[:filename] = image
+        image_object[:path] = image_directory + "/" + image
+        images << image_object
+      end
     end
+    images
 
-    frequencies
   end
 
-  def pixelate(image)
-    x_coordinate = 0
-    y_coordinate = 0
-    image.get_pixels(x_coordinate, y_coordinate, image.columns, image.rows)
+  def quantize_image(path, number_of_colors)
+    image = Magick::Image.read(path).first
+    quantized_image = image.quantize(number_of_colors, Magick::RGBColorspace)
   end
 
-  def sort_frequencies(frequencies)
-    sorted = frequencies.sort_by {|_, frequency| frequency}
-    sorted.reverse
+  def sort_color_histogram(path, number_of_colors)
+    quantized_image = quantize_image(path, number_of_colors)
+    sorted_histogram = quantized_image.color_histogram.sort {|color, frequency| frequency[1] <=> color[1]}
   end
 
-  def top_colors(sorted_frequencies)
-    sorted_frequencies[0..4]
-  end
+  def get_hex(path, number_of_colors, total_pixel_count)
+    @hex_codes = []
+    sorted_histogram = sort_color_histogram(path, number_of_colors)
 
+    sorted_histogram.count.times do |i|
+      h = sorted_histogram[i]
+      r1 = h[0].red/255
+      g1 = h[0].green / 255
+      b1 = h[0].blue / 255
+
+      r2 = r1.to_s(16)
+      g2 = g1.to_s(16)
+      b2 = b1.to_s(16)
+
+      r2 += r2 unless r2.length == 2
+      g2 += g2 unless g2.length == 2
+      b2 += b2 unless b2.length == 2
+
+      hex = "#{r2}#{g2}#{b2}"
+
+      pixel_count = h[1]
+      pixel_percent = ((pixel_count.to_f/ total_pixel_count.to_f)*100).round(2)
+
+      @hex_codes << {hex: hex, percent: pixel_percent}
+    end
+    @hex_codes
+
+  end
 
 end
