@@ -1,12 +1,10 @@
 require 'benchmark'
 
 class WelcomeController < ApplicationController
-  IMAGES = []
 
   def index
-    @images = []
-    @images = create_image_array(@images)
-    @images = generate_image_colors(@images)
+    images = []
+    @images = generate_image_colors(create_image_array(images))
   end
 
   private
@@ -19,7 +17,6 @@ class WelcomeController < ApplicationController
       total_pixel_count = quantized_image.columns * quantized_image.rows
       colors = get_hex(image[:path], number_of_colors, total_pixel_count)
       colors = colors.sort_by {|color| color[:percent]}.reverse
-
       colors.each {|hex_code| image[:colors] << hex_code[:hex]}
       image[:colors] =  image[:colors].shift(5)
     end

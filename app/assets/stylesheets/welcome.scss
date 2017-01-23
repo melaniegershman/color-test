@@ -2,7 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-
+.container {
+  width: auto;
+  margin: 0 auto;
+}
 
 .swatch {
   height: 75px;
@@ -10,6 +13,17 @@
   display: inline-block;
   border: grey solid 1px;
   margin: 12px;
+}
+
+.card-wrapper {
+  display: inline-block;
+  width: 33%;
+  box-sizing:border-box;
+  padding-right: 20px;
+
+}
+.card-wrapper:nth-child(3n) {
+  padding-right: none;
 }
 
 .card .card-image img {
@@ -21,6 +35,9 @@
   top: 0;
   bottom: 0;
   width: 100%;
+  object-fit: cover;
+  max-height: 450px;
+  object-position: top;
 }
 
 .card .card-image .card-title {
@@ -28,5 +45,7 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  padding: 5px;
+  padding: 15px;
+  word-break: break-word;
+  font-size: 115%;
 }
