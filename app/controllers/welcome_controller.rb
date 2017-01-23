@@ -1,5 +1,3 @@
-require 'benchmark'
-
 class WelcomeController < ApplicationController
 
   def index
@@ -54,10 +52,9 @@ class WelcomeController < ApplicationController
 
     sorted_histogram.count.times do |i|
       h = sorted_histogram[i]
-
-      r1 = h[0].red/256
-      g1 = h[0].green / 256
-      b1 = h[0].blue / 256
+      r1 = h[0].red/255
+      g1 = h[0].green / 255
+      b1 = h[0].blue / 255
 
       r2 = r1.to_s(16)
       g2 = g1.to_s(16)
