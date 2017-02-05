@@ -1,20 +1,20 @@
 <% @images.each do |image| %>
-    <div class="card-wrapper">
-        <div class="card">
-            <div class="card-image">
-                <%= image_tag("#{image[:filename]}", class: "image") %>
-            </div>
-            <div class="card-content">
-                <span class="black-text">Here are the dominant colors in: "<%="#{image[:filename]}"%>"</span>
-                <% image[:colors].each do |hex| %>
-                <div class="swatch" style="background-color:<%= hex[0] %>">
-                    <div>
+  <div class="card-wrapper">
+    <div class="card">
+      <div class="card-image">
+        <%= image_tag("#{image[:filename]}", class: "image") %>
+      </div>
+      <div class="card-content">
+        <span class="black-text">Here are the dominant colors in: "<%="#{image[:filename]}"%>"</span>
+        <% image[:colors].each do |hex| %>
+          <div class="swatch" style="background-color:#<%= hex %>">
+            <div>
 
-                    </div>
-                </div>
-                <% end %>
             </div>
-        </div>
+          </div>
+        <% end %>
+      </div>
     </div>
+  </div>
 
 <% end %>
