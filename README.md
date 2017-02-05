@@ -1,3 +1,5 @@
 # README
 
-A small web app that processes an image and extracts the five dominant colors out of it.
+
+A small app that assesses images and extracts the five dominant colors from an image. Built for practice with Rmagick.
+
